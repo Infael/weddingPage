@@ -42,3 +42,12 @@ npm run build
 ```sh
 npm run lint
 ```
+
+### Upload to GH Pages
+
+```sh
+npm run build
+git add dist -f
+git commit -m "commit message"
+git subtree push --prefix dist origin gh-pages
+```

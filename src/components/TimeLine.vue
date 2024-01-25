@@ -1,39 +1,39 @@
 <script setup lang="ts">
-import IconHeart from './icons/IconHeart.vue'
-import { ref, onMounted } from 'vue'
+import IconHeart from './icons/IconHeart.vue';
+import { ref, onMounted } from 'vue';
 
 /* function for determinig if the element is on screen in the bottom half  */
 const isVisable = (el: HTMLElement) => {
-  const rect = el.getBoundingClientRect()
-  return rect.top < window.innerHeight && rect.top >= window.innerHeight / 2 - rect.height / 2
-}
+  const rect = el.getBoundingClientRect();
+  return rect.top < window.innerHeight && rect.top >= window.innerHeight / 2 - rect.height / 2;
+};
 
-const firstImg = ref<HTMLElement>()
-const secondImg = ref<HTMLElement>()
-const thirdImg = ref<HTMLElement>()
-const fourthImg = ref<HTMLElement>()
+const firstImg = ref<HTMLElement>();
+const secondImg = ref<HTMLElement>();
+const thirdImg = ref<HTMLElement>();
+const fourthImg = ref<HTMLElement>();
 
-const imgs = [firstImg, secondImg, thirdImg, fourthImg]
+const imgs = [firstImg, secondImg, thirdImg, fourthImg];
 
 onMounted(() => {
   imgs.forEach((img) => {
-    img.value?.style.setProperty('opacity', '0')
-  })
-})
+    img.value?.style.setProperty('opacity', '0');
+  });
+});
 
 const onScroll = () => {
   imgs.forEach((img) => {
-    if (img.value === undefined) return
+    if (img.value === undefined) return;
     if (isVisable(img.value)) {
-      const rect = img.value.getBoundingClientRect()
+      const rect = img.value.getBoundingClientRect();
       // opacity should be 0 when the element is at the bottom of the screen and 1 when it is in the middle
-      const opacity = 1 - (rect.top - window.innerHeight / 2) / (window.innerHeight / 2)
-      img.value.style.setProperty('opacity', opacity.toString())
+      const opacity = 1 - (rect.top - window.innerHeight / 2) / (window.innerHeight / 2);
+      img.value.style.setProperty('opacity', opacity.toString());
     }
-  })
-}
+  });
+};
 
-window.addEventListener('scroll', onScroll)
+window.addEventListener('scroll', onScroll);
 </script>
 
 <template>
@@ -139,7 +139,6 @@ window.addEventListener('scroll', onScroll)
   /* laptop */
   @media (min-width: 1024px) {
     flex-direction: row;
-    width: 100%;
     align-self: center;
     justify-content: space-between;
   }
@@ -171,7 +170,7 @@ window.addEventListener('scroll', onScroll)
   @media (min-width: 1024px) {
     flex-direction: column;
     font-size: 48px;
-    width: 350px;
+    width: 400px;
     padding: 0;
     text-align: center;
   }
@@ -184,7 +183,7 @@ window.addEventListener('scroll', onScroll)
 
   /* laptop */
   @media (min-width: 1024px) {
-    width: 350px;
+    width: 400px;
   }
 }
 

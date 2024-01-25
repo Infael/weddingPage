@@ -1,15 +1,21 @@
-import './assets/main.css'
+import './assets/main.css';
 
-import { createApp } from 'vue'
-import App from './App.vue'
-import router from './router'
+import { createApp } from 'vue';
+import App from './App.vue';
+import router from './router';
+import { makeServer } from './server';
 
-const app = createApp(App)
-
-app.use(router)
-
-app.config.errorHandler = (err) => {
-  console.log(err)
+if (import.meta.env.MODE === 'development') {
+  console.log('Starting MirageJS server');
+  makeServer();
 }
 
-app.mount('#app')
+const app = createApp(App);
+
+app.use(router);
+
+app.config.errorHandler = (err) => {
+  console.log(err);
+};
+
+app.mount('#app');

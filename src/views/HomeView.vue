@@ -1,25 +1,59 @@
 <script setup lang="ts">
-import MainHeader from '@/components/MainHeader.vue'
-import TimeLine from '@/components/TimeLine.vue'
+import MainHeader from '@/components/MainHeader.vue';
+import MyLoading from '@/components/MyLoading.vue';
+import TimeLine from '@/components/TimeLine.vue';
+import { getUrlParam } from '@/utils/getUrlParam';
+import { useFetch } from '@/utils/useFetch';
+import { onMounted, ref } from 'vue';
 
+// Variables
+const key = ref<string | null>(null);
+
+// Scrolling
 const onScroll = () => {
   // when the first screen is scrolled down parallax blur should be enhanced
   if (window.scrollY > 0 && window.scrollY < window.innerHeight) {
-    const blur = 5 + (window.scrollY / window.innerHeight) * 10
-    const background = document.querySelector('.parallax') as HTMLElement
-    if (background) background.style.filter = `blur(${blur}px)`
+    const blur = 5 + (window.scrollY / window.innerHeight) * 10;
+    const background = document.querySelector('.parallax') as HTMLElement;
+    if (background) background.style.filter = `blur(${blur}px)`;
   }
-}
+};
+window.addEventListener('scroll', onScroll);
 
-window.addEventListener('scroll', onScroll)
+// Api
+key.value = getUrlParam('key');
+
+// Hooks
+const { data, isLoading, isError, isSuccess, trigger } = useFetch(
+  `${import.meta.env.VITE_API_ENDPOINT}/guest-invite/`
+);
+
+onMounted(() => {
+  if (key.value) {
+    trigger({ headers: { Authorization: key.value }, method: 'GET' });
+  }
+});
 </script>
 
 <template>
   <main>
-    <div class="parallax" />
-    <div class="content">
-      <MainHeader />
-      <TimeLine />
+    <div v-if="key" style="color: red">
+      <MyLoading v-if="isLoading" />
+      <div v-else>
+        {{ data }}
+        <!-- <div class="parallax" /> -->
+        <div class="content">
+          <MainHeader />
+          <TimeLine />
+        </div>
+      </div>
+    </div>
+    <div v-else>
+      <!-- <div class="parallax" /> -->
+      <div class="content">
+        <MainHeader />
+        <TimeLine />
+      </div>
     </div>
   </main>
 </template>
