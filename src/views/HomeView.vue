@@ -2,6 +2,7 @@
 import MainHeader from '@/components/MainHeader.vue';
 import MyLoading from '@/components/MyLoading.vue';
 import TimeLine from '@/components/TimeLine.vue';
+import type { GuestInvite } from '@/models/GuestInvite';
 import { getUrlParam } from '@/utils/getUrlParam';
 import { useFetch } from '@/utils/useFetch';
 import { onMounted, ref } from 'vue';
@@ -20,38 +21,62 @@ const onScroll = () => {
 };
 window.addEventListener('scroll', onScroll);
 
-// Api
 key.value = getUrlParam('key');
 
 // Hooks
-const { data, isLoading, isError, isSuccess, trigger } = useFetch(
-  `${import.meta.env.VITE_API_ENDPOINT}/guest-invite/`
-);
+const {
+  data: guestInviteData,
+  isLoading: guestInviteLoading,
+  isError: guestInviteError,
+  isSuccess: guestInviteSuccess,
+  trigger: triggerGuestInvite
+} = useFetch(`${import.meta.env.VITE_API_ENDPOINT}/guest-invite/`);
 
 onMounted(() => {
   if (key.value) {
-    trigger({ headers: { Authorization: key.value }, method: 'GET' });
+    triggerGuestInvite({ headers: { Authorization: key.value }, method: 'GET' });
   }
 });
+
+const onGuestAnswer = (accepted: boolean) => {
+  if (key.value) {
+    triggerGuestInvite({
+      headers: { Authorization: key.value },
+      method: 'PUT',
+      body: JSON.stringify({ ...guestInviteData.value!, invite_accepted: accepted })
+    });
+  }
+};
 </script>
 
 <template>
   <main>
-    <div v-if="key" style="color: red">
-      <MyLoading v-if="isLoading" />
+    <div v-if="key">
+      <MyLoading v-if="guestInviteLoading && !guestInviteSuccess" />
       <div v-else>
-        {{ data }}
-        <!-- <div class="parallax" /> -->
+        <div
+          class="parallax"
+          :class="{
+            paralaxBeforeAccept: (guestInviteData as GuestInvite).invite_accepted === null
+          }"
+        ></div>
         <div class="content">
-          <MainHeader />
-          <TimeLine />
+          <MainHeader
+            :guest-accepted="(guestInviteData as GuestInvite).invite_accepted ?? undefined"
+            @update-guest-accepted="onGuestAnswer"
+          />
+          <Transition name="content">
+            <div v-if="(guestInviteData as GuestInvite).invite_accepted !== null">
+              <TimeLine />
+            </div>
+          </Transition>
         </div>
       </div>
     </div>
     <div v-else>
-      <!-- <div class="parallax" /> -->
+      <div class="parallax"></div>
       <div class="content">
-        <MainHeader />
+        <MainHeader unauthorized />
         <TimeLine />
       </div>
     </div>
@@ -82,11 +107,26 @@ main {
   background-repeat: no-repeat;
   background-size: cover;
   filter: blur(5px);
+
+  transition: all 1.6s ease-in-out;
+}
+
+.paralaxBeforeAccept {
+  min-height: 100vh;
 }
 .content {
   display: flex;
   flex-direction: column;
   margin: 0 auto;
   width: clamp(270px, 80%, 1023px);
+}
+
+.content-enter-active,
+.content-leave-active {
+  transition: opacity 1s;
+}
+.content-enter-from,
+.content-leave-to {
+  opacity: 0;
 }
 </style>

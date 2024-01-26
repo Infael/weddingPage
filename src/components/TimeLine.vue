@@ -98,6 +98,8 @@ window.addEventListener('scroll', onScroll);
   align-items: center;
   gap: 50px;
   flex: 1;
+
+  margin-top: 24px;
 }
 
 .line {
