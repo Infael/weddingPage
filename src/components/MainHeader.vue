@@ -44,48 +44,48 @@ const onUserChoice = (accepted: boolean) => {
 <style scoped>
 .headerBox {
   font-family: 'Agatha', cursive;
-  color: white;
+  color: var(--c-white);
 
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  height: 90vh;
+  height: 95vh;
 
   @media (min-width: 768px) {
-    height: 100vh;
+    height: 95vh;
   }
 }
 
 .header {
   /* mobile first */
-  font-size: 50px;
-  line-height: 70px;
+  font-size: var(--font-agatha-xs);
+  line-height: var(--font-agatha-s);
   /* tablet */
   @media (min-width: 768px) {
-    font-size: 100px;
-    line-height: 120px;
+    font-size: var(--font-agatha-m);
+    line-height: var(--font-agatha-l);
   }
   /* desktop */
   @media (min-width: 1024px) {
-    font-size: 140px;
-    line-height: 160px;
+    font-size: var(--font-agatha-xl);
+    line-height: var(--font-agatha-xxl);
   }
 }
 .subHeader {
   font-family: 'Agatha', cursive;
-  color: white;
+  color: var(--c-white);
   text-align: center;
 
   /* mobile first */
-  font-size: 42px;
+  font-size: var(--font-agatha-xxs);
   /* tablet */
   @media (min-width: 768px) {
-    font-size: 60px;
+    font-size: var(--font-agatha-s);
   }
   /* desktop */
   @media (min-width: 1024px) {
-    font-size: 80px;
+    font-size: var(--font-agatha-xm);
   }
 
   padding-bottom: 24px;
@@ -112,12 +112,12 @@ const onUserChoice = (accepted: boolean) => {
 .acceptingQuestion {
   text-align: center;
 
-  font-size: 42px;
+  font-size: var(--font-agatha-xxs);
   padding-bottom: 24px;
 
   /* tablet */
   @media (min-width: 768px) {
-    font-size: 64px;
+    font-size: var(--font-agatha-s);
   }
 }
 
@@ -133,13 +133,13 @@ const onUserChoice = (accepted: boolean) => {
   border: none;
   background: none;
   font-family: 'Agatha', cursive;
-  font-size: 64px;
-  color: white;
+  font-size: var(--font-agatha-s);
+  color: var(--c-white);
   transition: all 0.3s ease-in-out;
 }
 
 .button:hover {
-  color: rgb(255, 215, 0);
+  color: var(--c-gold);
   cursor: pointer;
 }
 

@@ -2,6 +2,7 @@
 import MainHeader from '@/components/MainHeader.vue';
 import MyLoading from '@/components/MyLoading.vue';
 import TimeLine from '@/components/TimeLine.vue';
+import ScheduleList from '@/components/ScheduleList.vue';
 import type { GuestInvite } from '@/models/GuestInvite';
 import { getUrlParam } from '@/utils/getUrlParam';
 import { useFetch } from '@/utils/useFetch';
@@ -15,8 +16,9 @@ const onScroll = () => {
   // when the first screen is scrolled down parallax blur should be enhanced
   if (window.scrollY > 0 && window.scrollY < window.innerHeight) {
     const blur = 5 + (window.scrollY / window.innerHeight) * 10;
+    const brightness = 1 - (window.scrollY / window.innerHeight) * 0.2;
     const background = document.querySelector('.parallax') as HTMLElement;
-    if (background) background.style.filter = `blur(${blur}px)`;
+    if (background) background.style.filter = `blur(${blur}px) brightness(${brightness})`;
   }
 };
 window.addEventListener('scroll', onScroll);
@@ -66,8 +68,12 @@ const onGuestAnswer = (accepted: boolean) => {
             @update-guest-accepted="onGuestAnswer"
           />
           <Transition name="content">
-            <div v-if="(guestInviteData as GuestInvite).invite_accepted !== null">
+            <div
+              v-if="(guestInviteData as GuestInvite).invite_accepted !== null"
+              class="guestAcceptedContent"
+            >
               <TimeLine />
+              <ScheduleList />
             </div>
           </Transition>
         </div>
@@ -108,7 +114,7 @@ main {
   background-size: cover;
   filter: blur(5px);
 
-  transition: all 1.6s ease-in-out;
+  transition: min-height 1.6s ease-in-out;
 }
 
 .paralaxBeforeAccept {
@@ -119,6 +125,15 @@ main {
   flex-direction: column;
   margin: 0 auto;
   width: clamp(270px, 80%, 1023px);
+}
+
+.guestAcceptedContent {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20vh;
+
+  width: 100%;
 }
 
 .content-enter-active,

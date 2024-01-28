@@ -87,9 +87,10 @@ window.addEventListener('scroll', onScroll);
 
 <style scoped>
 .wrapper {
-  color: white;
+  margin-bottom: 35vh;
+  color: var(--c-white);
   font-family: 'Agatha', cursive;
-  font-size: 32px;
+  font-size: var(--font-size-xxl);
 
   position: relative;
   display: flex;
@@ -99,7 +100,7 @@ window.addEventListener('scroll', onScroll);
   gap: 50px;
   flex: 1;
 
-  margin-top: 24px;
+  width: 100%;
 }
 
 .line {
@@ -117,7 +118,7 @@ window.addEventListener('scroll', onScroll);
   top: -5px;
   left: 50%;
   transform: translate(-50%, -50%);
-  color: white;
+  color: var(--c-white);
 }
 .h_last {
   top: calc(100% + 35px);
@@ -171,7 +172,7 @@ window.addEventListener('scroll', onScroll);
   /* laptop */
   @media (min-width: 1024px) {
     flex-direction: column;
-    font-size: 48px;
+    font-size: var(--font-agatha-xs);
     width: 400px;
     padding: 0;
     text-align: center;
@@ -199,22 +200,22 @@ window.addEventListener('scroll', onScroll);
   align-items: center;
   width: 100%;
 
-  font-size: 64px;
-  line-height: 48px;
+  font-size: var(--font-agatha-s);
+  line-height: var(--font-agatha-xs);
 
   /* laptop */
   @media (min-width: 1024px) {
-    font-size: 128px;
-    line-height: 102px;
+    font-size: var(--font-agatha-l);
+    line-height: var(--font-agatha-m);
   }
 }
 
 .date {
-  font-size: 42px;
+  font-size: var(--font-agatha-xxs);
 
   /* laptop */
   @media (min-width: 1024px) {
-    font-size: 82px;
+    font-size: var(--font-agatha-xm);
   }
 }
 </style>

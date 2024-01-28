@@ -30,7 +30,7 @@
   letter-spacing: var(--w);
   width: var(--w);
   overflow: hidden;
-  white-space: nowrap;
+  var(--c-white)-space: nowrap;
   color: #0000;
 
   max-height: calc(var(--move) * -1);
@@ -42,7 +42,7 @@
 }
 
 .text-2 {
-  --color: rgb(218, 165, 32);
+  --color: var(--c-metalic-gold);
   animation: a1 6s infinite;
 }
 
@@ -52,7 +52,7 @@
 }
 
 .text-4 {
-  --color: rgb(218, 165, 32);
+  --color: var(--c-metalic-gold);
   animation: a1 6s infinite;
 }
 
