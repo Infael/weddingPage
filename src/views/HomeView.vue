@@ -7,6 +7,7 @@ import type { GuestInvite } from '@/models/GuestInvite';
 import { getUrlParam } from '@/utils/getUrlParam';
 import { useFetch } from '@/utils/useFetch';
 import { onMounted, ref } from 'vue';
+import InviteUnauthorized from '@/components/InviteUnauthorized.vue';
 
 // Variables
 const key = ref<string | null>(null);
@@ -49,6 +50,8 @@ const onGuestAnswer = (accepted: boolean) => {
     });
   }
 };
+
+console.log(!key.value);
 </script>
 
 <template>
@@ -59,9 +62,11 @@ const onGuestAnswer = (accepted: boolean) => {
         <div
           class="parallax"
           :class="{
-            paralaxBeforeAccept: (guestInviteData as GuestInvite).invite_accepted === null
+            parallaxBeforeAccept: (guestInviteData as GuestInvite).invite_accepted === null
           }"
-        ></div>
+        >
+          >
+        </div>
         <div class="content">
           <MainHeader
             :guest-accepted="(guestInviteData as GuestInvite).invite_accepted ?? undefined"
@@ -80,10 +85,11 @@ const onGuestAnswer = (accepted: boolean) => {
       </div>
     </div>
     <div v-else>
-      <div class="parallax"></div>
+      <div class="parallax parallaxUnauthorized"></div>
       <div class="content">
         <MainHeader unauthorized />
         <TimeLine />
+        <InviteUnauthorized />
       </div>
     </div>
   </main>
@@ -117,8 +123,12 @@ main {
   transition: min-height 1.6s ease-in-out;
 }
 
-.paralaxBeforeAccept {
+.parallaxBeforeAccept {
   min-height: 100vh;
+}
+
+.parallaxUnauthorized {
+  min-height: 380vh;
 }
 .content {
   display: flex;
