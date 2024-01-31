@@ -3,7 +3,7 @@ import IconHeart from './icons/IconHeart.vue';
 </script>
 
 <template>
-  <div class="schedule-list">
+  <section class="schedule-list">
     <div class="topRightBorder">
       <div class="innerTopRightBorder"></div>
       <div class="outerTopRightBorder"></div>
@@ -28,7 +28,7 @@ import IconHeart from './icons/IconHeart.vue';
       <IconHeart class="heart" />
       <p>Zavíjanka <span class="divider">-</span> <span class="time">00:00</span></p>
     </div>
-  </div>
+  </section>
 </template>
 
 <style scoped>

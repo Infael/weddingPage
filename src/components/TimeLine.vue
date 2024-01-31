@@ -37,7 +37,7 @@ window.addEventListener('scroll', onScroll);
 </script>
 
 <template>
-  <div class="wrapper">
+  <section class="wrapper">
     <IconHeart class="heart" />
     <span class="line"></span>
     <div class="photoWrapper">
@@ -82,7 +82,7 @@ window.addEventListener('scroll', onScroll);
       <span class="date">13.7.2024</span>
       <IconHeart class="heart h_last" />
     </p>
-  </div>
+  </section>
 </template>
 
 <style scoped>

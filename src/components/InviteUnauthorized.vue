@@ -1,7 +1,9 @@
 <script setup lang="ts"></script>
 
 <template>
-  <h4 class="text">Tešíme sa na Vás v kostole Nanebovzatia Panny Márie v Brezne.</h4>
+  <section>
+    <h4 class="text">Tešíme sa na Vás v kostole Nanebovzatia Panny Márie v Brezne.</h4>
+  </section>
 </template>
 
 <style scoped>

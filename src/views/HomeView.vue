@@ -3,11 +3,13 @@ import MainHeader from '@/components/MainHeader.vue';
 import MyLoading from '@/components/MyLoading.vue';
 import TimeLine from '@/components/TimeLine.vue';
 import ScheduleList from '@/components/ScheduleList.vue';
+import InviteUnauthorized from '@/components/InviteUnauthorized.vue';
+import MyFooter from '@/components/MyFooter.vue';
+import ErrorView from '@/components/ErrorView.vue';
 import type { GuestInvite } from '@/models/GuestInvite';
 import { getUrlParam } from '@/utils/getUrlParam';
 import { useFetch } from '@/utils/useFetch';
 import { onMounted, ref } from 'vue';
-import InviteUnauthorized from '@/components/InviteUnauthorized.vue';
 
 // Variables
 const key = ref<string | null>(null);
@@ -56,41 +58,47 @@ console.log(!key.value);
 
 <template>
   <main>
-    <div v-if="key">
-      <MyLoading v-if="guestInviteLoading && !guestInviteSuccess" />
-      <div v-else>
-        <div
-          class="parallax"
-          :class="{
-            parallaxBeforeAccept: (guestInviteData as GuestInvite).invite_accepted === null
-          }"
-        >
-          >
-        </div>
-        <div class="content">
-          <MainHeader
-            :guest-accepted="(guestInviteData as GuestInvite).invite_accepted ?? undefined"
-            @update-guest-accepted="onGuestAnswer"
-          />
-          <Transition name="content">
-            <div
-              v-if="(guestInviteData as GuestInvite).invite_accepted !== null"
-              class="guestAcceptedContent"
-            >
-              <TimeLine />
-              <ScheduleList />
-            </div>
-          </Transition>
-        </div>
-      </div>
+    <div v-if="guestInviteError">
+      <ErrorView />
     </div>
     <div v-else>
-      <div class="parallax parallaxUnauthorized"></div>
-      <div class="content">
-        <MainHeader unauthorized />
-        <TimeLine />
-        <InviteUnauthorized />
+      <div v-if="key">
+        <MyLoading v-if="guestInviteLoading && !guestInviteSuccess" />
+        <div v-else>
+          <div
+            class="parallax"
+            :class="{
+              parallaxBeforeAccept: (guestInviteData as GuestInvite).invite_accepted === null
+            }"
+          >
+            >
+          </div>
+          <div class="content">
+            <MainHeader
+              :guest-accepted="(guestInviteData as GuestInvite).invite_accepted ?? undefined"
+              @update-guest-accepted="onGuestAnswer"
+            />
+            <Transition name="content">
+              <div
+                v-if="(guestInviteData as GuestInvite).invite_accepted !== null"
+                class="guestAcceptedContent"
+              >
+                <TimeLine />
+                <ScheduleList />
+              </div>
+            </Transition>
+          </div>
+        </div>
       </div>
+      <div v-else>
+        <div class="parallax parallaxUnauthorized"></div>
+        <div class="content">
+          <MainHeader unauthorized />
+          <TimeLine />
+          <InviteUnauthorized />
+        </div>
+      </div>
+      <MyFooter v-if="!guestInviteError" />
     </div>
   </main>
 </template>

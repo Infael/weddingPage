@@ -20,7 +20,7 @@ const onUserChoice = (accepted: boolean) => {
 </script>
 
 <template>
-  <div class="headerBox">
+  <section class="headerBox">
     <h2 class="header">Danielka a Miško</h2>
     <h3 class="subHeader">13.7.2024 v Brezne</h3>
     <div
@@ -38,7 +38,7 @@ const onUserChoice = (accepted: boolean) => {
         </button>
       </div>
     </div>
-  </div>
+  </section>
 </template>
 
 <style scoped>

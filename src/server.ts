@@ -43,11 +43,7 @@ export function makeServer({ environment = 'development' } = {}) {
       this.get('/guest-invite/', (schema, request) => {
         const guest = schema.db.guests.findBy({ key: request.requestHeaders['Authorization'] });
         if (!guest) {
-          return new Response(
-            404,
-            {},
-            { error: `guest key ${request.requestHeaders['Authorization']} not found!` }
-          );
+          return new Response(401, {}, 'Unauthorized guest');
         }
         return guest;
       });
@@ -55,11 +51,7 @@ export function makeServer({ environment = 'development' } = {}) {
       this.put('/guest-invite/', (schema, request) => {
         const guest = schema.db.guests.findBy({ key: request.requestHeaders['Authorization'] });
         if (!guest) {
-          return new Response(
-            404,
-            {},
-            { error: `guest key ${request.requestHeaders['Authorization']} not found!` }
-          );
+          return new Response(401, {}, 'Unauthorized guest');
         }
         const attrs = JSON.parse(request.requestBody);
         const updatedGuest = schema.db.guests.update(guest.id, attrs);
