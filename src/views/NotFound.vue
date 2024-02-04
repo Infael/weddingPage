@@ -4,7 +4,7 @@ import ErrorView from '@/components/ErrorView.vue';
 
 <template>
   <div class="notFoundWrapper">
-    <ErrorView />
+    <ErrorView error-text="404: Page not Found" />
   </div>
 </template>
 

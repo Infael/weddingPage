@@ -54,6 +54,7 @@ export function makeServer({ environment = 'development' } = {}) {
           return new Response(401, {}, 'Unauthorized guest');
         }
         const attrs = JSON.parse(request.requestBody);
+        console.log(attrs);
         const updatedGuest = schema.db.guests.update(guest.id, attrs);
         return updatedGuest;
       });

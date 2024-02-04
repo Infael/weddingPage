@@ -1,12 +1,18 @@
 <script setup lang="ts"></script>
 
 <template>
-  <section>
+  <section class="invite">
     <h4 class="text">Tešíme sa na Vás v kostole Nanebovzatia Panny Márie v Brezne.</h4>
   </section>
 </template>
 
 <style scoped>
+.invite {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
 .text {
   outline: 2px solid var(--c-white);
   outline-offset: 3px;
@@ -14,7 +20,7 @@
   font-family: PlayfairItalic, serif;
   font-size: var(--font-size-xl);
   color: var(--c-white);
-  margin-top: 15vh;
+  margin: 15vh 0;
   padding: 30px;
   text-align: center;
 

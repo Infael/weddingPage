@@ -1,5 +1,9 @@
 <script setup lang="ts">
 import IconHeart from './icons/IconHeart.vue';
+
+defineProps({
+  errorText: String
+});
 </script>
 
 <template>
@@ -10,8 +14,8 @@ import IconHeart from './icons/IconHeart.vue';
       <div class="rightEye"><IconHeart /></div>
       <div class="mouth"></div>
     </div>
-    <p class="errorText" title="500: Something went wrong at server side...">
-      500: Something went wrong at server side...
+    <p class="errorText" v-bind:title="errorText">
+      {{ errorText }}
     </p>
   </div>
 </template>
@@ -93,7 +97,7 @@ import IconHeart from './icons/IconHeart.vue';
   --eyes-height: 35%;
   --eyes-gap: 25%;
   --mouth-height: 75%;
-  --eye-animation-duration: 0.5s;
+  --eye-animation-duration: 0.4s;
 }
 
 .leftEyeOne {

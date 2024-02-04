@@ -33,9 +33,10 @@ const {
   data: guestInviteData,
   isLoading: guestInviteLoading,
   isError: guestInviteError,
+  error: guestInviteErrorData,
   isSuccess: guestInviteSuccess,
   trigger: triggerGuestInvite
-} = useFetch(`${import.meta.env.VITE_API_ENDPOINT}/guest-invite/`);
+} = useFetch<GuestInvite>(`${import.meta.env.VITE_API_ENDPOINT}/guest-invite/`);
 
 onMounted(() => {
   if (key.value) {
@@ -59,46 +60,52 @@ console.log(!key.value);
 <template>
   <main>
     <div v-if="guestInviteError">
-      <ErrorView />
+      <ErrorView
+        :error-text="`${guestInviteErrorData?.status}: ${guestInviteErrorData?.message}`"
+      />
     </div>
     <div v-else>
-      <div v-if="key">
+      <div v-if="key && guestInviteData && guestInviteData.invite_accepted !== false">
         <MyLoading v-if="guestInviteLoading && !guestInviteSuccess" />
         <div v-else>
           <div
             class="parallax"
             :class="{
-              parallaxBeforeAccept: (guestInviteData as GuestInvite).invite_accepted === null
+              parallaxBeforeAccept: guestInviteData.invite_accepted === null
             }"
-          >
-            >
-          </div>
+          ></div>
           <div class="content">
             <MainHeader
-              :guest-accepted="(guestInviteData as GuestInvite).invite_accepted ?? undefined"
+              :guest-accepted="guestInviteData.invite_accepted ?? undefined"
               @update-guest-accepted="onGuestAnswer"
             />
             <Transition name="content">
-              <div
-                v-if="(guestInviteData as GuestInvite).invite_accepted !== null"
-                class="guestAcceptedContent"
-              >
+              <div v-if="guestInviteData.invite_accepted !== null" class="guestAcceptedContent">
                 <TimeLine />
                 <ScheduleList />
+                <InviteUnauthorized />
               </div>
             </Transition>
           </div>
         </div>
       </div>
       <div v-else>
-        <div class="parallax parallaxUnauthorized"></div>
+        <div
+          class="parallax"
+          :class="{
+            parallaxUnauthorized: !key,
+            parallaxDeclined: guestInviteData && guestInviteData.invite_accepted === false
+          }"
+        ></div>
         <div class="content">
           <MainHeader unauthorized />
           <TimeLine />
-          <InviteUnauthorized />
+          <InviteUnauthorized
+            v-if="key === null || (guestInviteData && guestInviteData.invite_accepted !== false)"
+          />
         </div>
       </div>
-      <MyFooter v-if="!guestInviteError" />
+      <MyFooter v-if="!key || (guestInviteData && guestInviteData.invite_accepted !== null)" />
     </div>
   </main>
 </template>
@@ -119,7 +126,7 @@ main {
   z-index: -1;
 
   /* Set a specific height */
-  min-height: 600vh;
+  min-height: 620vh;
 
   /* Create the parallax scrolling effect */
   background-attachment: fixed;
@@ -129,14 +136,31 @@ main {
   filter: blur(5px);
 
   transition: min-height 1.6s ease-in-out;
+
+  /* big desktop */
+  @media (min-width: 1999px) {
+    min-height: 550vh;
+  }
 }
 
 .parallaxBeforeAccept {
   min-height: 100vh;
 }
 
+.parallaxDeclined {
+  min-height: 400vh;
+  /* big desktop */
+  @media (min-width: 1920px) {
+    min-height: 350vh;
+  }
+}
+
 .parallaxUnauthorized {
-  min-height: 380vh;
+  min-height: 480vh;
+  /* big desktop */
+  @media (min-width: 1920px) {
+    min-height: 400vh;
+  }
 }
 .content {
   display: flex;

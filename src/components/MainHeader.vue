@@ -1,5 +1,7 @@
 <script setup lang="ts">
-const props = defineProps({
+import { ref } from 'vue';
+
+defineProps({
   guestAccepted: {
     type: Boolean,
     required: false,
@@ -14,13 +16,27 @@ const props = defineProps({
 
 const emits = defineEmits(['updateGuestAccepted']);
 
+const declined = ref(false);
+
 const onUserChoice = (accepted: boolean) => {
-  emits('updateGuestAccepted', accepted);
+  if (!accepted) {
+    declined.value = true;
+  } else {
+    emits('updateGuestAccepted', accepted);
+  }
+};
+
+const onConfirmDecline = () => {
+  emits('updateGuestAccepted', false);
+};
+
+const onDeclineDecline = () => {
+  declined.value = false;
 };
 </script>
 
 <template>
-  <section class="headerBox">
+  <section class="headerBox" v-if="!declined">
     <h2 class="header">Danielka a Miško</h2>
     <h3 class="subHeader">13.7.2024 v Brezne</h3>
     <div
@@ -39,10 +55,30 @@ const onUserChoice = (accepted: boolean) => {
       </div>
     </div>
   </section>
+  <section class="headerBox" v-else>
+    <p class="declineText">To nás mrzí 🥺</p>
+    <p class="declinedQuestion">
+      Si si tým ale istý? Túto voľbu budeš môcť zmeniť len veľmi nepríjemným telefonátom niekomu z
+      (budúcich) manželov!
+    </p>
+    <div class="declinedButtonsGroup">
+      <button
+        v-on:click="onDeclineDecline()"
+        class="button biggerButton"
+        :disabled="guestAccepted !== null"
+      >
+        Nie len som skúšal čo sa stane keď to stlačím
+      </button>
+      <button v-on:click="onConfirmDecline()" class="button" :disabled="guestAccepted !== null">
+        Áno, bohužiaľ sa nemôžem zúčastniť
+      </button>
+    </div>
+  </section>
 </template>
 
 <style scoped>
 .headerBox {
+  position: relative;
   font-family: 'Agatha', cursive;
   color: var(--c-white);
 
@@ -51,10 +87,6 @@ const onUserChoice = (accepted: boolean) => {
   align-items: center;
   justify-content: center;
   height: 95vh;
-
-  @media (min-width: 768px) {
-    height: 95vh;
-  }
 }
 
 .header {
@@ -126,16 +158,23 @@ const onUserChoice = (accepted: boolean) => {
   flex-direction: row;
   justify-content: space-evenly;
   width: 100%;
-  font-size: 64px;
+  font-size: var(--font-agatha-s);
+  line-height: 50px;
+  font-family: 'Agatha', cursive;
+  font-size: var(--font-agatha-s);
 }
 
 .button {
   border: none;
   background: none;
-  font-family: 'Agatha', cursive;
-  font-size: var(--font-agatha-s);
   color: var(--c-white);
   transition: all 0.3s ease-in-out;
+  font-family: inherit;
+  font-size: inherit;
+  line-height: inherit;
+  border-bottom: 1px solid var(--c-white);
+  border-radius: 5px;
+  margin: auto;
 }
 
 .button:hover {
@@ -145,5 +184,31 @@ const onUserChoice = (accepted: boolean) => {
 
 .button:disabled {
   cursor: default;
+}
+
+.declineText {
+  font-family: playfair, serif;
+  text-align: center;
+  font-size: var(--font-size-xxl);
+  padding-bottom: 16px;
+}
+
+.declinedQuestion {
+  font-family: playfair, serif;
+  text-align: center;
+}
+
+.declinedButtonsGroup {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+  width: 100%;
+  gap: 20px;
+  padding-top: 50px;
+  font-family: playfair, serif;
+}
+
+.biggerButton {
+  font-size: var(--font-size-xl) !important;
 }
 </style>

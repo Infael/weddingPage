@@ -46,7 +46,7 @@ window.addEventListener('scroll', onScroll);
         <span>22.1.2000</span>
       </p>
       <IconHeart class="heart h_center" />
-      <img src="../assets/images/placeholder.jpg" alt="placeholder" class="img" ref="firstImg" />
+      <img src="../assets/images/malyMisko.jpg" alt="placeholder" class="img" ref="firstImg" />
     </div>
     <div class="photoWrapper">
       <p class="text">
@@ -54,7 +54,6 @@ window.addEventListener('scroll', onScroll);
         <span>Danielka</span>
       </p>
       <IconHeart class="heart h_center" />
-
       <img src="../assets/images/placeholder.jpg" alt="placeholder" class="img" ref="secondImg" />
     </div>
     <div class="photoWrapper">
@@ -63,8 +62,7 @@ window.addEventListener('scroll', onScroll);
         <span>24.3.2016</span>
       </p>
       <IconHeart class="heart h_center" />
-
-      <img src="../assets/images/placeholder.jpg" alt="placeholder" class="img" ref="thirdImg" />
+      <img src="../assets/images/skoroVelki.jpg" alt="placeholder" class="img" ref="thirdImg" />
     </div>
     <div class="photoWrapper">
       <p class="text">
@@ -73,7 +71,7 @@ window.addEventListener('scroll', onScroll);
       </p>
       <IconHeart class="heart h_center" />
 
-      <img src="../assets/images/placeholder.jpg" alt="placeholder" class="img" ref="fourthImg" />
+      <img src="../assets/images/zasnuby.jpg" alt="placeholder" class="img" ref="fourthImg" />
     </div>
     <IconHeart class="heart h_last" />
 
@@ -182,7 +180,7 @@ window.addEventListener('scroll', onScroll);
 .img {
   width: 100%;
   height: auto;
-  border: 1px solid red;
+  border: 1px solid var(--c-white);
 
   /* laptop */
   @media (min-width: 1024px) {
