@@ -47,7 +47,7 @@ onMounted(() => {
 const onGuestAnswer = (accepted: boolean) => {
   if (key.value) {
     triggerGuestInvite({
-      headers: { Authorization: key.value },
+      headers: { Authorization: key.value, 'Content-Type': 'application/json' },
       method: 'PUT',
       body: JSON.stringify({ ...guestInviteData.value!, invite_accepted: accepted })
     });
