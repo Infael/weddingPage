@@ -1,0 +1,1 @@
+import{d as e,c as o,a as t,o as a,E as r,_ as n}from"./index-ekPt7kWO.js";const s={class:"notFoundWrapper"},c=e({__name:"NotFound",setup(_){return(d,p)=>(a(),o("div",s,[t(r,{"error-text":"404: Page not Found"})]))}}),i=n(c,[["__scopeId","data-v-e1d1c45b"]]);export{i as default};
