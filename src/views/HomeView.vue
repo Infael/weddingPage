@@ -66,7 +66,7 @@ console.log(!key.value);
       />
     </div>
     <!-- Loading -->
-    <div v-else-if="!guestInviteLoading">
+    <div v-else-if="guestInviteLoading && guestInviteData === null">
       <MyLoading />
     </div>
     <!-- With api -->
