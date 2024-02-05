@@ -54,7 +54,7 @@ window.addEventListener('scroll', onScroll);
         <span>Danielka</span>
       </p>
       <IconHeart class="heart h_center" />
-      <img src="../assets/images/placeholder.jpg" alt="placeholder" class="img" ref="secondImg" />
+      <img src="../assets/images/malaDada.jpeg" alt="placeholder" class="img" ref="secondImg" />
     </div>
     <div class="photoWrapper">
       <p class="text">

@@ -59,54 +59,58 @@ console.log(!key.value);
 
 <template>
   <main>
+    <!-- Error -->
     <div v-if="guestInviteError">
       <ErrorView
         :error-text="`${guestInviteErrorData?.status}: ${guestInviteErrorData?.message}`"
       />
     </div>
-    <div v-else>
-      <div v-if="key && guestInviteData && guestInviteData.invite_accepted !== false">
-        <MyLoading v-if="guestInviteLoading && !guestInviteSuccess" />
-        <div v-else>
-          <div
-            class="parallax"
-            :class="{
-              parallaxBeforeAccept: guestInviteData.invite_accepted === null
-            }"
-          ></div>
-          <div class="content">
-            <MainHeader
-              :guest-accepted="guestInviteData.invite_accepted ?? undefined"
-              @update-guest-accepted="onGuestAnswer"
-            />
-            <Transition name="content">
-              <div v-if="guestInviteData.invite_accepted !== null" class="guestAcceptedContent">
-                <TimeLine />
-                <ScheduleList />
-                <InviteUnauthorized />
-              </div>
-            </Transition>
-          </div>
-        </div>
-      </div>
-      <div v-else>
-        <div
-          class="parallax"
-          :class="{
-            parallaxUnauthorized: !key,
-            parallaxDeclined: guestInviteData && guestInviteData.invite_accepted === false
-          }"
-        ></div>
-        <div class="content">
-          <MainHeader unauthorized />
-          <TimeLine />
-          <InviteUnauthorized
-            v-if="key === null || (guestInviteData && guestInviteData.invite_accepted !== false)"
-          />
-        </div>
-      </div>
-      <MyFooter v-if="!key || (guestInviteData && guestInviteData.invite_accepted !== null)" />
+    <!-- Loading -->
+    <div v-else-if="guestInviteLoading && guestInviteData === null">
+      <MyLoading />
     </div>
+    <!-- With api -->
+    <div
+      v-else-if="guestInviteSuccess && guestInviteData && guestInviteData.invite_accepted !== false"
+    >
+      <div
+        class="parallax"
+        :class="{
+          parallaxBeforeAccept: guestInviteData.invite_accepted === null
+        }"
+      ></div>
+      <div class="content">
+        <MainHeader
+          :guest-accepted="guestInviteData.invite_accepted ?? undefined"
+          @update-guest-accepted="onGuestAnswer"
+        />
+        <Transition name="content">
+          <div v-if="guestInviteData.invite_accepted !== null" class="guestAcceptedContent">
+            <TimeLine />
+            <ScheduleList />
+            <InviteUnauthorized />
+          </div>
+        </Transition>
+      </div>
+    </div>
+    <!-- Without api or declined -->
+    <div v-else>
+      <div
+        class="parallax"
+        :class="{
+          parallaxUnauthorized: !key,
+          parallaxDeclined: guestInviteData && guestInviteData.invite_accepted === false
+        }"
+      ></div>
+      <div class="content">
+        <MainHeader unauthorized />
+        <TimeLine />
+        <InviteUnauthorized
+          v-if="guestInviteData === null || guestInviteData.invite_accepted !== false"
+        />
+      </div>
+    </div>
+    <MyFooter v-if="!key || (guestInviteData && guestInviteData.invite_accepted !== null)" />
   </main>
 </template>
 
