@@ -30,7 +30,7 @@
   letter-spacing: var(--w);
   width: var(--w);
   overflow: hidden;
-  var(--c-white)-space: nowrap;
+  white-space: nowrap;
   color: #0000;
 
   max-height: calc(var(--move) * -1);
