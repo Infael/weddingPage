@@ -10,6 +10,8 @@ import type { GuestInvite } from '@/models/GuestInvite';
 import { getUrlParam } from '@/utils/getUrlParam';
 import { useFetch } from '@/utils/useFetch';
 import { onMounted, ref } from 'vue';
+import type { Question } from '@/models/Question';
+import QuestionList from '@/components/questions/QuestionList.vue';
 
 // Variables
 const key = ref<string | null>(null);
@@ -38,9 +40,19 @@ const {
   trigger: triggerGuestInvite
 } = useFetch<GuestInvite>(`${import.meta.env.VITE_API_ENDPOINT}/guest-invite/`);
 
+const {
+  data: questionsData,
+  isLoading: questionsLoading,
+  isError: questionsIsError,
+  error: questionsError,
+  isSuccess: questionsIsSuccess,
+  trigger: triggerGetQuestions
+} = useFetch<Question[]>(`${import.meta.env.VITE_API_ENDPOINT}/questions/`);
+
 onMounted(() => {
   if (key.value) {
     triggerGuestInvite({ headers: { Authorization: key.value }, method: 'GET' });
+    triggerGetQuestions({ headers: { Authorization: key.value }, method: 'GET' });
   }
 });
 
@@ -53,32 +65,34 @@ const onGuestAnswer = (accepted: boolean) => {
     });
   }
 };
-
-console.log(!key.value);
 </script>
 
 <template>
   <main>
-    <!-- Error -->
+    <!-- Errors -->
     <div v-if="guestInviteError">
       <ErrorView
         :error-text="`${guestInviteErrorData?.status}: ${guestInviteErrorData?.message}`"
       />
     </div>
+    <div v-else-if="questionsIsError">
+      <ErrorView :error-text="`${questionsError?.status}: ${questionsError?.message}`" />
+    </div>
     <!-- Loading -->
-    <div v-else-if="guestInviteLoading && guestInviteData === null">
+    <div v-else-if="guestInviteLoading || questionsLoading">
       <MyLoading />
     </div>
     <!-- With api -->
     <div
-      v-else-if="guestInviteSuccess && guestInviteData && guestInviteData.invite_accepted !== false"
+      v-else-if="
+        guestInviteSuccess &&
+        guestInviteData &&
+        guestInviteData.invite_accepted !== false &&
+        questionsIsSuccess &&
+        questionsData
+      "
     >
-      <div
-        class="parallax"
-        :class="{
-          parallaxBeforeAccept: guestInviteData.invite_accepted === null
-        }"
-      ></div>
+      <div class="parallax"></div>
       <div class="content">
         <MainHeader
           :guest-accepted="guestInviteData.invite_accepted ?? undefined"
@@ -88,6 +102,9 @@ console.log(!key.value);
           <div v-if="guestInviteData.invite_accepted !== null" class="guestAcceptedContent">
             <TimeLine />
             <ScheduleList />
+            <div v-if="questionsData" class="questions">
+              <QuestionList :questions="questionsData" :auth="key ?? ''" />
+            </div>
             <InviteUnauthorized />
           </div>
         </Transition>
@@ -95,13 +112,7 @@ console.log(!key.value);
     </div>
     <!-- Without api or declined -->
     <div v-else>
-      <div
-        class="parallax"
-        :class="{
-          parallaxUnauthorized: !key,
-          parallaxDeclined: guestInviteData && guestInviteData.invite_accepted === false
-        }"
-      ></div>
+      <div class="parallax"></div>
       <div class="content">
         <MainHeader unauthorized />
         <TimeLine />
@@ -110,7 +121,11 @@ console.log(!key.value);
         />
       </div>
     </div>
-    <MyFooter v-if="!key || (guestInviteData && guestInviteData.invite_accepted !== null)" />
+    <MyFooter
+      v-if="
+        !key || (guestInviteData && guestInviteData.invite_accepted !== null && questionsIsSuccess)
+      "
+    />
   </main>
 </template>
 
@@ -121,7 +136,7 @@ main {
 }
 
 .parallax {
-  position: absolute;
+  position: fixed;
   top: 0;
   left: 0;
   width: 100%;
@@ -130,7 +145,7 @@ main {
   z-index: -1;
 
   /* Set a specific height */
-  min-height: 620vh;
+  min-height: 100%;
 
   /* Create the parallax scrolling effect */
   background-attachment: fixed;
@@ -138,34 +153,8 @@ main {
   background-repeat: no-repeat;
   background-size: cover;
   filter: blur(5px);
-
-  transition: min-height 1.6s ease-in-out;
-
-  /* big desktop */
-  @media (min-width: 1999px) {
-    min-height: 550vh;
-  }
 }
 
-.parallaxBeforeAccept {
-  min-height: 100vh;
-}
-
-.parallaxDeclined {
-  min-height: 400vh;
-  /* big desktop */
-  @media (min-width: 1920px) {
-    min-height: 350vh;
-  }
-}
-
-.parallaxUnauthorized {
-  min-height: 480vh;
-  /* big desktop */
-  @media (min-width: 1920px) {
-    min-height: 400vh;
-  }
-}
 .content {
   display: flex;
   flex-direction: column;
@@ -189,5 +178,12 @@ main {
 .content-enter-from,
 .content-leave-to {
   opacity: 0;
+}
+
+.questions {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
 }
 </style>

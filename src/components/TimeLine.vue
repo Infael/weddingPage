@@ -4,8 +4,10 @@ import { ref, onMounted } from 'vue';
 
 /* function for determinig if the element is on screen in the bottom half  */
 const isVisable = (el: HTMLElement) => {
-  const rect = el.getBoundingClientRect();
-  return rect.top < window.innerHeight && rect.top >= window.innerHeight / 2 - rect.height / 2;
+  if (el) {
+    const rect = el.getBoundingClientRect();
+    return rect.top < window.innerHeight && rect.top >= window.innerHeight / 2 - rect.height / 2;
+  }
 };
 
 const firstImg = ref<HTMLElement>();

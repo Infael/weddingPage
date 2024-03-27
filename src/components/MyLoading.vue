@@ -5,7 +5,7 @@
     <span class="text-1">Loading...</span>
     <span class="text-2">Dada&Miško</span>
     <span class="text-3">Tešíme sa!</span>
-    <span class="text-4">SVADBAAA ❤</span>
+    <span class="text-4">SVADBAAA❤</span>
   </div>
 </template>
 
@@ -468,7 +468,7 @@
       calc(-5 * var(--w)) calc(var(--move) * 3) var(--color),
       calc(-6 * var(--w)) calc(var(--move) * 3) var(--color),
       calc(-7 * var(--w)) calc(var(--move) * 3) var(--color),
-      calc(-8 * var(--w)) calc(var(--move) * 3) var(--color),
+      calc(-8 * var(--w)) calc(var(--move) * 3) #f00,
       calc(-9 * var(--w)) calc(var(--move) * 3) #f00;
   }
   96% {

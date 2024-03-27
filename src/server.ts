@@ -58,6 +58,38 @@ export function makeServer({ environment = 'development' } = {}) {
         const updatedGuest = schema.db.guests.update(guest.id, attrs);
         return updatedGuest;
       });
+
+      this.get('/questions/', () => {
+        return [
+          {
+            id: 1,
+            text: 'Prídeš s +1?',
+            event: 2,
+            multichoice: false,
+            values: ['Áno', 'Nie'],
+            guests: []
+          },
+          {
+            id: 2,
+            text: 'Obľúbené farby v mtg?',
+            event: 2,
+            multichoice: true,
+            values: ['Green', 'Blue', 'Red', 'Black', 'White', 'Colorless'],
+            guests: []
+          },
+          {
+            id: 3,
+            text: 'Na čo sa najviac tešíš?',
+            event: 2,
+            guests: []
+          }
+        ];
+      });
+
+      this.post('/responses/', (_, request) => {
+        console.log('Server obtained those data');
+        console.log(request.requestBody);
+      });
     }
   });
 

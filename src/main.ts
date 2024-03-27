@@ -7,7 +7,7 @@ import { makeServer } from './server';
 
 if (import.meta.env.MODE === 'development') {
   console.log('Starting MirageJS server');
-  makeServer();
+  // makeServer();
 }
 
 const app = createApp(App);
