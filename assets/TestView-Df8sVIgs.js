@@ -1,0 +1,1 @@
+import{_ as c,o as s,c as a,p as o,a as t,b as d}from"./index-DMZbYTx-.js";const _={},r=e=>(o("data-v-2d91b6ca"),e=e(),t(),e),n=r(()=>d("h1",{class:"header"},"Test View",-1)),p=[n];function i(e,h){return s(),a("div",null,p)}const f=c(_,[["render",i],["__scopeId","data-v-2d91b6ca"]]);export{f as default};
